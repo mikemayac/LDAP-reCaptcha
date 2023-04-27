@@ -3,8 +3,10 @@ package com.example.ldaprecaptcha;
 import javax.naming.AuthenticationException;
 import javax.naming.Context;
 import javax.naming.NamingException;
+import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 import java.util.Hashtable;
+import java.util.Properties;
 
 public class LDAPTest {
 
@@ -29,5 +31,24 @@ public class LDAPTest {
         } catch (NamingException ex) {
             System.out.println("Error al conectar con el servidor LDAP: " + ex.getMessage());
         }
+
+        System.out.println(authUser("mike", "12345"));
     }
+
+    public static boolean authUser(String user, String password){
+        try{
+            Properties env = new Properties();
+            env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
+            env.put(Context.PROVIDER_URL, "ldap://localhost:389");
+            env.put(Context.SECURITY_PRINCIPAL, "cn="+user+",ou=Users,o=MyOrganization,dc=maxcrc,dc=com");
+            env.put(Context.SECURITY_CREDENTIALS, password);
+            DirContext con = new InitialDirContext(env);
+            con.close();
+            return true;
+        } catch (Exception e) {
+            System.out.println("failed: " + e.getMessage());
+            return false;
+        }
+    }
+
 }
