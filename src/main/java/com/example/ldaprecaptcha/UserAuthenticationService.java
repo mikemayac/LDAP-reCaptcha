@@ -5,7 +5,7 @@ import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 import java.util.Properties;
 
-public class AuthenticationLDAPTService {
+public class UserAuthenticationService {
 
     public boolean authUser(String username, String password) {
         try {
