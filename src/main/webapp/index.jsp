@@ -26,20 +26,15 @@
             </div>
 
             <div class="row center" >
-<%--                <div class="col s12">--%>
             <button class="waves-effect waves-light btn g-recaptcha"
                     data-sitekey="6LfHyMIlAAAAAKKxKCiq0ndk_MtoizLp28uxeRLb"
                     data-callback='onSubmit'
                     data-action='submit'>Iniciar sesión</button>
-<%--                </div>--%>
+
+                <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response">
+
             </div>
 
-
-<%--            <div class="row center" >--%>
-<%--                <div class="col s12">--%>
-<%--                    <input type="submit" value="Iniciar sesión" class="waves-effect waves-light btn">--%>
-<%--                </div>--%>
-<%--            </div>--%>
 
             <% String errorMessage = (String) request.getAttribute("errorMessage");
                 if (errorMessage != null) { %>
@@ -52,7 +47,9 @@
 
 <%--            reCaptchaV3 Google function.--%>
             <script>
-                function onSubmit(token) {
+                async function onSubmit(token) {
+                    const recaptchaResponse = await grecaptcha.execute('6LfHyMIlAAAAAKKxKCiq0ndk_MtoizLp28uxeRLb', { action: 'submit' });
+                    document.getElementById('g-recaptcha-response').value = recaptchaResponse;
                     document.getElementById("login-form").submit();
                 }
             </script>

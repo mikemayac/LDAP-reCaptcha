@@ -6,6 +6,8 @@
  */
 package com.example.ldaprecaptcha;
 
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -14,7 +16,11 @@ import javax.naming.Context;
 import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Properties;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @WebServlet("/login")
@@ -56,6 +62,13 @@ public class LoginServlet extends HttpServlet {
             request.setAttribute("errorMessage", "Invalid credentials.");
             request.getRequestDispatcher("index.jsp").forward(request, response);
         }
+
+        String recaptchaResponse = request.getParameter("g-recaptcha-response");
+        if (!verifyRecaptcha(recaptchaResponse)) {
+            request.setAttribute("errorMessage", "reCAPTCHA verification failed.");
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        }
+
     }
 
     /**
@@ -82,4 +95,32 @@ public class LoginServlet extends HttpServlet {
             return false;
         }
     }
+
+    //Recaptcha v3 verification
+
+    private boolean verifyRecaptcha(String recaptchaResponse) {
+        try {
+            String secretKey = "6LfHyMIlAAAAAKKxKCiq0ndk_MtoizLp28uxeRLb";
+            String url = "https://www.google.com/recaptcha/api/siteverify";
+            String params = "secret=" + secretKey + "&response=" + recaptchaResponse;
+
+            HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+            connection.setDoOutput(true);
+            connection.setRequestMethod("POST");
+            connection.getOutputStream().write(params.getBytes());
+
+            InputStream responseStream = connection.getInputStream();
+            JsonObject responseJson = Json.createReader(responseStream).readObject();
+
+            if (responseJson.getBoolean("success")) {
+                double score = responseJson.getJsonNumber("score").doubleValue();
+                return score >= 0.5;
+            }
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, "Error verifying reCAPTCHA", e);
+        }
+
+        return false;
+    }
+
 }
