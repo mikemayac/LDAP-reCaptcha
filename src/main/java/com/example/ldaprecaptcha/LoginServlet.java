@@ -1,3 +1,9 @@
+/**
+ * LoginServlet es un servlet que maneja las solicitudes de inicio de sesión de los usuarios.
+ * Procesa las credenciales del usuario y, si son válidas, crea una sesión y redirige al usuario
+ * a la página de bienvenida (welcome.jsp). Si las credenciales no son válidas, muestra un mensaje
+ * de error en la página de inicio de sesión (index.jsp).
+ */
 package com.example.ldaprecaptcha;
 
 import jakarta.servlet.*;
@@ -16,11 +22,28 @@ public class LoginServlet extends HttpServlet {
 
     private final static Logger logger = Logger.getLogger(LoginServlet.class.getName());
 
+    /**
+     * Procesa las solicitudes GET, mostrando la página de inicio de sesión.
+     *
+     * @param request  El objeto HttpServletRequest que contiene la solicitud del cliente.
+     * @param response El objeto HttpServletResponse que contiene la respuesta que se enviará al cliente.
+     * @throws ServletException Si ocurre un error relacionado con el servlet.
+     * @throws IOException      Si ocurre un error de entrada/salida.
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("/index.jsp").forward(request, response);
     }
 
+    /**
+     * Procesa las solicitudes POST, validando las credenciales del usuario y creando una sesión si
+     * las credenciales son válidas.
+     *
+     * @param request  El objeto HttpServletRequest que contiene la solicitud del cliente.
+     * @param response El objeto HttpServletResponse que contiene la respuesta que se enviará al cliente.
+     * @throws ServletException Si ocurre un error relacionado con el servlet.
+     * @throws IOException      Si ocurre un error de entrada/salida.
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");
@@ -35,6 +58,13 @@ public class LoginServlet extends HttpServlet {
         }
     }
 
+    /**
+     * Autentica al usuario utilizando sus credenciales proporcionadas y el sistema LDAP.
+     *
+     * @param userName El nombre de usuario proporcionado por el cliente.
+     * @param password La contraseña proporcionada por el cliente.
+     * @return true si las credenciales son válidas, false en caso contrario.
+     */
     public boolean authUser(String userName, String password) {
 
         try {
