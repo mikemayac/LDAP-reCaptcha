@@ -11,7 +11,7 @@
 <div class="container">
     <h1 class="center-align">Iniciar sesión</h1>
     <div class="row">
-        <form class="col s12" action="${pageContext.request.contextPath}/login" method="post">
+        <form class="col s12" action="${pageContext.request.contextPath}/login" method="post" enctype="application/x-www-form-urlencoded">
             <div class="row">
                 <div class="input-field col s12">
                     <input id="username" name="username" type="text" class="validate" required>

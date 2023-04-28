@@ -1,5 +1,8 @@
 package com.example.ldaprecaptcha;
 
+import jakarta.inject.Inject;
+import org.apache.deltaspike.core.api.config.ConfigProperty;
+
 import javax.naming.AuthenticationException;
 import javax.naming.Context;
 import javax.naming.NamingException;
@@ -22,6 +25,10 @@ public class LDAPTest {
         environment.put(Context.SECURITY_PRINCIPAL, ldapUsername);
         environment.put(Context.SECURITY_CREDENTIALS, ldapPassword);
 
+        //System.out.println("factory: " +  ldapContextFactory);
+        System.out.println("Url: " + ldapUrl);
+
+
         try {
             InitialDirContext context = new InitialDirContext(environment);
             System.out.println("Conexión exitosa");
@@ -34,6 +41,8 @@ public class LDAPTest {
 
         System.out.println(authUser("mike", "12345"));
     }
+
+
 
     public static boolean authUser(String user, String password){
         try{
