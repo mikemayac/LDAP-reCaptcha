@@ -9,15 +9,12 @@ import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
-//    private UserAuthenticationService userAuthenticationService;
 
-//    @Override
-//    public void init() {
-//        userAuthenticationService = new UserAuthenticationService();
-//    }
+    private final static Logger logger = Logger.getLogger(LoginServlet.class.getName());
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

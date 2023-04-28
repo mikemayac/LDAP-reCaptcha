@@ -12,14 +12,14 @@ import java.io.IOException;
 public class LogoutServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse resp) throws ServletException, IOException {
         // Invalida la sesión del usuario
-        HttpSession session = req.getSession(false);
+        HttpSession session = request.getSession(false);
         if (session != null) {
             session.invalidate();
         }
 
         // Redirige al usuario a la página de inicio de sesión (index.jsp)
-        resp.sendRedirect(req.getContextPath() + "/index.jsp");
+        resp.sendRedirect(request.getContextPath() + "/index.jsp");
     }
 }
