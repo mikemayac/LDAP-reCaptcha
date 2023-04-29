@@ -25,15 +25,23 @@
                 </div>
             </div>
 
+<%--            <div class="row center" >--%>
+<%--            <button class="waves-effect waves-light btn g-recaptcha"--%>
+<%--                    data-sitekey="6LfHyMIlAAAAAKKxKCiq0ndk_MtoizLp28uxeRLb"--%>
+<%--                    data-callback='onSubmit'--%>
+<%--                    data-action='submit'>Iniciar sesión</button>--%>
+
+<%--                <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response">--%>
+
+<%--            </div>--%>
+
             <div class="row center" >
-            <button class="waves-effect waves-light btn g-recaptcha"
-                    data-sitekey="6LfHyMIlAAAAAKKxKCiq0ndk_MtoizLp28uxeRLb"
-                    data-callback='onSubmit'
-                    data-action='submit'>Iniciar sesión</button>
-
-                <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response">
-
+                <div class="col s12">
+                    <input type="submit" value="Iniciar sesión" class="waves-effect waves-light btn">
+                </div>
             </div>
+
+
 
 
             <% String errorMessage = (String) request.getAttribute("errorMessage");
